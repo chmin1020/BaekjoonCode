@@ -43,7 +43,5 @@ int main() {
 		result -= tp[i];
 	cout << result << '\n';
 
-
-
 	return 0;
 }

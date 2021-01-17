@@ -1,2 +1,2 @@
 # BaekjoonCode
-For saving my Baekjoon solution :)
+For saving my BOJ solution :)

@@ -1,0 +1,31 @@
+#include <iostream>
+#include <set>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
+	multiset<int> tq;
+	char order;
+	int cases, cnts, num;
+
+	cin >> cases;
+	for (int i = 0; i < cases; i++) {
+		cin >> cnts;
+		for (int j = 0; j < cnts; j++) {
+			cin >> order >> num;
+			if (order == 'I') {
+				tq.insert(num);
+			}
+			else {
+				if (tq.empty())continue;
+				(num == 1) ? tq.erase(--tq.end()) : tq.erase(tq.begin());
+			}
+		}
+		if (tq.empty()) cout << "EMPTY\n";
+		else cout << *(--tq.end()) << ' ' << *(tq.begin()) << '\n';
+		tq.clear();
+	}
+	return 0;
+}

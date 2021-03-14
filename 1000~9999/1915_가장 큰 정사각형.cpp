@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <string>
 #include <algorithm>
 using namespace std;
 int board[1001][1001];
@@ -23,11 +24,12 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
 	int n, m;
-	char tmp[1001];
+	string tmp;
 
 	cin >> n >> m;
 	for (int i = 1; i <= n; i++) {
-		scanf("%s", tmp);
+		tmp.clear();
+		cin >> tmp;
 		for (int j = 0; j < m; j++)
 			board[i][j + 1] = tmp[j] - '0';
 	}

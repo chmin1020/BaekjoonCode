@@ -11,6 +11,7 @@ int main() {
 	else if (x2 != x1 && x2 != x3) std::cout << x2;
 	else std::cout << x3;
 	putc(' ', stdout);
+	
 	if (y1 != y2 && y1 != y3) std::cout << y1;
 	else if (y2 != y1 && y2 != y3) std::cout << y2;
 	else std::cout << y3;

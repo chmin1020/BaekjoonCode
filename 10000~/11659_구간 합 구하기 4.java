@@ -5,16 +5,16 @@ import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		ArrayList<Long> culArr = new ArrayList<Long>();
+		ArrayList<Integer> culArr = new ArrayList<Integer>();
 		int n, m, start, end;
-		long tmp;
+		int tmp;
 		
 		n = sc.nextInt();
 		m = sc.nextInt();
 		
-		culArr.add((long) 0);
+		culArr.add(0);
 		for(int i = 1; i <= n; i++) {
-			tmp = sc.nextLong();
+			tmp = sc.nextInt();
 			culArr.add(culArr.get(i - 1) + tmp);
 		}
 		

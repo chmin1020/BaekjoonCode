@@ -1,89 +1,86 @@
+import java.io.*;
 import java.util.*;
- 
+
 public class Main {
-    
-    static ArrayList<Node>[] list;
-    static int n, m, start, end; 
-    static int[] dist;
-    static int[] route; // 직전 노드 저장
-    static boolean[] visited; 
-    
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        
-        n = scan.nextInt();
-        m = scan.nextInt();
-        
-        list = new ArrayList[n + 1];
-        for(int i = 1; i <= n; i++) {
-            list[i] = new ArrayList<>();
-        }
-        
-        for(int i = 0; i < m; i++) {
-            int s = scan.nextInt();
-            int e = scan.nextInt();
-            int c = scan.nextInt();
-            list[s].add(new Node(e, c));
-        }
-        
-        start = scan.nextInt();
-        end = scan.nextInt();
-        
-        dist = new int[n + 1];
-        route = new int[n + 1];
-        Arrays.fill(dist, 1000000001);
-        visited = new boolean[n + 1];
-        dijkstra();
-        
-        System.out.println(dist[end]);
-        
-        ArrayList<Integer> routes = new ArrayList<>();
-        int current = end;
-        while(current != 0) {
-            routes.add(current);
-            current = route[current];
-        }
-        System.out.println(routes.size());
-        for(int i = routes.size() - 1; i >= 0; i--) {
-            System.out.print(routes.get(i) + " ");
-        }
-    }
-    
-    public static void dijkstra() {
-        PriorityQueue<Node> q = new PriorityQueue<>();
-        q.add(new Node(start, 0));
-        dist[start] = 0;
-        route[start] = 0;
-        
-        while(!q.isEmpty()) {
-            Node current = q.poll();
-            
-            if(!visited[current.e]) visited[current.e] = true;
-            else continue;
-            
-            for(int i = 0; i < list[current.e].size(); i++) {
-                Node next = list[current.e].get(i);
-                if(dist[next.e] > dist[current.e] + next.cost) {
-                    dist[next.e] = dist[current.e] + next.cost;
-                    q.offer(new Node(next.e, dist[next.e]));
-                    route[next.e] = current.e;
-                }
-            }
-        }
-    }
-    
-    public static class Node implements Comparable<Node> {
-        int e;
-        int cost;
-        
-        public Node(int e, int cost) {
-            this.e = e;
-            this.cost = cost;
-        }
-        
-        @Override
-        public int compareTo(Node n) {
-            return this.cost - n.cost;
-        }
-    }
+	static final int INF = 1000000001;
+	static class Pair implements Comparable<Pair>{
+		public int node, cost;
+		Pair(int x, int y){
+			node = x;
+			cost = y;
+		}
+		public int compareTo(Pair p) {
+			return p.cost < this.cost ? 1: -1;
+		}	
+	}
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+		PriorityQueue<Pair> heap = new PriorityQueue<Pair>();
+		boolean visited[];
+		int graph[][];
+		int dijkstra[], before[];
+		int cities, buses, start, end, cost;
+		Pair cur;
+		
+		cities = Integer.parseInt(br.readLine());
+		buses = Integer.parseInt(br.readLine());
+		
+		graph = new int[cities + 1][cities + 1];
+		for(int i = 0; i <= cities; i++)
+			Arrays.fill(graph[i], INF);
+		
+		for(int i = 0; i < buses; i++) {
+			st = new StringTokenizer(br.readLine());
+			start = Integer.parseInt(st.nextToken());
+			end = Integer.parseInt(st.nextToken());
+			cost = Integer.parseInt(st.nextToken());
+			graph[start][end] = cost;
+		}
+		st = new StringTokenizer(br.readLine());
+		start = Integer.parseInt(st.nextToken());
+		end = Integer.parseInt(st.nextToken());
+		
+		dijkstra = new int[cities + 1];
+		before = new int[cities + 1];
+		visited = new boolean[cities + 1];
+		Arrays.fill(dijkstra, INF);
+		Arrays.fill(before, -1);
+		Arrays.fill(visited, false);
+		
+		heap.add(new Pair(start, 0));
+		dijkstra[start] = 0;
+		while(!heap.isEmpty()) {
+			cur = heap.poll();
+			if(visited[cur.node]) continue;
+			visited[cur.node] = true;
+		
+			for(int i = 1; i <= cities; i++) {
+				if(graph[cur.node][i] != INF && dijkstra[i] > dijkstra[cur.node] + graph[cur.node][i]) {
+					dijkstra[i] = dijkstra[cur.node] + graph[cur.node][i];
+					heap.offer(new Pair(i, dijkstra[i]));
+					before[i] = cur.node;
+				}
+			}
+		}
+		
+		int now = end;
+		ArrayList<Integer> route = new ArrayList<Integer>();
+		route.add(now);
+		while(before[now] != -1) {
+			route.add(before[now]);
+			now = before[now];
+		}
+		
+		bw.write(dijkstra[end]+ "\n");
+		bw.write(route.size() + "\n");
+		for(int i = route.size() - 1; i >= 0; i--)
+			bw.write(route.get(i) + " ");
+		bw.write("\n");
+		bw.flush();
+		bw.close();
+		br.close();
+	}
 }

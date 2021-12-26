@@ -20,7 +20,7 @@ public class Main {
 		StringTokenizer st;
 		PriorityQueue<Pair> heap = new PriorityQueue<Pair>();
 		boolean visited[];
-		int graph[][];
+		ArrayList<ArrayList<Pair>> graph = new ArrayList<ArrayList<Pair>>();
 		int dijkstra[], before[];
 		int cities, buses, start, end, cost;
 		Pair cur;
@@ -28,16 +28,15 @@ public class Main {
 		cities = Integer.parseInt(br.readLine());
 		buses = Integer.parseInt(br.readLine());
 		
-		graph = new int[cities + 1][cities + 1];
 		for(int i = 0; i <= cities; i++)
-			Arrays.fill(graph[i], INF);
+			graph.add(new ArrayList<Pair>());
 		
 		for(int i = 0; i < buses; i++) {
 			st = new StringTokenizer(br.readLine());
 			start = Integer.parseInt(st.nextToken());
 			end = Integer.parseInt(st.nextToken());
 			cost = Integer.parseInt(st.nextToken());
-			graph[start][end] = cost;
+			graph.get(start).add(new Pair(end, cost));
 		}
 		st = new StringTokenizer(br.readLine());
 		start = Integer.parseInt(st.nextToken());
@@ -52,16 +51,18 @@ public class Main {
 		
 		heap.add(new Pair(start, 0));
 		dijkstra[start] = 0;
+		Pair next;
 		while(!heap.isEmpty()) {
 			cur = heap.poll();
 			if(visited[cur.node]) continue;
 			visited[cur.node] = true;
 		
-			for(int i = 1; i <= cities; i++) {
-				if(graph[cur.node][i] != INF && dijkstra[i] > dijkstra[cur.node] + graph[cur.node][i]) {
-					dijkstra[i] = dijkstra[cur.node] + graph[cur.node][i];
-					heap.offer(new Pair(i, dijkstra[i]));
-					before[i] = cur.node;
+			for(int i = 0; i < graph.get(cur.node).size(); i++) {
+				next = graph.get(cur.node).get(i);
+				if(dijkstra[next.node] > dijkstra[cur.node] + next.cost) {
+					dijkstra[next.node] = dijkstra[cur.node] + next.cost;
+					heap.offer(new Pair(next.node, dijkstra[next.node]));
+					before[next.node] = cur.node;
 				}
 			}
 		}

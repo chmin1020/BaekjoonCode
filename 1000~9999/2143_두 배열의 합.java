@@ -71,8 +71,7 @@ public class Main {
 				else
 					heap.offer(mArr[j] - mArr[i - 1]);
 			}
-		}
-		
+		}		
 		while(!heap.isEmpty()) 
 			culMList.add(heap.poll());
 		

@@ -7,9 +7,10 @@ public class Main {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st;
 		int num = Integer.parseInt(br.readLine());
-		int[] way = new int[num - 1];
-		int[] city = new int[num];
-		int cur, check, ans = 0;
+		long[] way = new long[num - 1];
+		long[] city = new long[num];
+		int cur, check;
+		long ans = 0;
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < num - 1; i++)

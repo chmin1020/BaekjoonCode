@@ -20,22 +20,18 @@ public class Main {
 		int k = Integer.parseInt(st.nextToken());
 		long mul = decideMul(n);
 		boolean[] rest = new boolean[k];
-		boolean flag = true;
 		
 		long mod = n % k;
 		while(mod != 0) {
 			mod = (mod * mul + n) % k;
 			if(rest[(int)mod]) {
-				flag = false;
+				ans = -1;
 				break;
 			}
 			rest[(int)mod] = true;
 			ans++;
 		}
-		if(flag)
-			bw.write(ans + "\n");
-		else
-			bw.write("-1\n");
+		bw.write(ans + "\n");
 		bw.flush();
 		bw.close();
 		br.close();
